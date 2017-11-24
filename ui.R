@@ -5,6 +5,7 @@ library(fmsb)
 library(DT)
 
 # v1 need to get gui running correctly first then enhance with file access
+# v1.1.1 renamed Material Properties to Data Sensitivity Framework
 
 #source("UploadCSVModule.R")
 #source("downloadCSVModule.R")
@@ -14,38 +15,33 @@ r_colors <- rgb(t(col2rgb(colors()) / 255))
 names(r_colors) <- colors()
 
 ui <- fluidPage(width = 720,
-                useShinyjs(),  # Include shinyjs
+#                useShinyjs(),  # Include shinyjs
                 
-                
-                fluidRow(column(3,tags$img(src="ons-logo.png", width=90)), #180
+                fluidRow(column(3,tags$img(src="ons-logo.png", width=90)), 
                          column(9, textOutput("liu"),align = "right")
                 ),
-#                br(),
-                
 
                 mainPanel(width = 12,
                           tabsetPanel(
                             tabPanel("Overview", 
-                                     h3("This is a PoC in R for viewing the Material Properties of a calculated data set from those of the input data sets"),
+                                     h3("This is a PoC in R for viewing the Data Sensitivity Framework scores of a calculated data set from those of the input data sets"),
                                      img(src='MPComp-Overview.png', align = "centre", width=700),
                                      br(),
-                                     h6("Version 1.03 by Neville de Mendonca & Mark Craddock")
+                                     h6("Version 1.1 by Neville de Mendonca & Mark Craddock")
                             ),
 
-                            tabPanel("Material Properties", 
-                                     h3("Display new the Material Properties when using these data sets"),
+                            tabPanel("Data Sensitivity Framework", 
+                                     h3("Display new the Data Sensitivity scores when using these data sets"),
                                      sidebarLayout(
                                        sidebarPanel(
                                          
                                          tagList(
-                                            #   checkboxInput(inputId="ind2", label="Include D2"),
-                                           
-                                           radioButtons("rb",
-                                                        label = "Show Material Properties:",
-                                                        choices = list("MP for Data set 1 (x)" = 1,"MP for Data set 2 (y)" = 2,"MP for f(x,y) inc x,y" = 3),
+                                           radioButtons("rbDataset",
+                                                        label = "Show Data Sensitivity:",
+                                                        choices = list("DS for Data set 1 (x)" = 1,"DS for Data set 2 (y)" = 2,"DS for f(x,y) inc x,y" = 3),
                                                         selected = 1),
                                            htmlOutput("mpValues")
-                                           
+                                           # disable editing to show a simplified screen version for video 
                                            # selectInput("sensitivity", "Sensitivity:", 
                                            #             list("Open Public"=0,"Commercial"=4,"Private Personal"=8, "Secret"=12), selected = "osensitivity"),
                                            # 
@@ -69,15 +65,15 @@ ui <- fluidPage(width = 720,
                                          )  
                                        ),
                                        mainPanel(
-#                                         plotOutput('radarPlot',height="auto")
+                                         
+                                          #    use a fixed plot size for UNBigData2017 video
+                                          #    plotOutput('radarPlot',height="auto")
                                          plotOutput('radarPlot',width = "450px")
                                        )
                                      )
-                            
-                            
                             )
-                          )
-                )
-)
+                          ) # tabsetPanel
+                ) # mainPanel
+        ) # fluidPage
 
 
